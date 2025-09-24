@@ -4,28 +4,31 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.infosys.BudgetTracker.entity.User;
+import com.infosys.BudgetTracker.entity.Users;
 import com.infosys.BudgetTracker.repository.UserRepository;
 
 @Service
 public class UserService {
 	@Autowired
 	UserRepository userRepo;
-	public List<User> fetchUser() {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	public List<Users> fetchUser() {
 		// TODO Auto-generated method stub
 		return userRepo.findAll();
 	}
 
-	public User findById(long id) {
+	public Users findById(long id) {
 		// TODO Auto-generated method stub
 		return userRepo.findById(id).orElse(null);
 	}
 
-	public User creatingUser(User data) {
+	public Users creatingUser(Users data) {
 		// TODO Auto-generated method stub
-		return userRepo.save(data);
+		data.setPassword(passwordEncoder.encode(data.getPassword()));
+	    return userRepo.save(data);
 	}
 
 	public String deletingUser(long id) {
@@ -42,11 +45,11 @@ public class UserService {
         
 	}
 
-	public String updatingUser(long id, User data2) {
-	    Optional<User> optionalUser = userRepo.findById(id);
+	public String updatingUser(long id, Users data2) {
+	    Optional<Users> optionalUser = userRepo.findById(id);
 	    
 	    if (optionalUser.isPresent()) {
-	        User existingUser = optionalUser.get();
+	        Users existingUser = optionalUser.get();
 
 	        // ✅ Update only necessary fields
 	        existingUser.setName(data2.getName());

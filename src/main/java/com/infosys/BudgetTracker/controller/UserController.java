@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.infosys.BudgetTracker.entity.User;
+import com.infosys.BudgetTracker.entity.Users;
 import com.infosys.BudgetTracker.service.UserService;
 
 @RestController
@@ -22,18 +21,18 @@ public class UserController {
 	UserService userSer;
 
 	@GetMapping
-	public List<User> getAllTask() {
+	public List<Users> getAllTask() {
 		return userSer.fetchUser();
 
 	}
 
 	@GetMapping("/{id}")
-	public User getUserById(@PathVariable long id) {
+	public Users getUserById(@PathVariable long id) {
 		return userSer.findById(id); 
 	}
 
 	@PostMapping
-	public User createTask(@RequestBody User data) {
+	public Users createTask(@RequestBody Users data) {
 		return userSer.creatingUser(data);
 	}
 
@@ -44,7 +43,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public String updateTask(@PathVariable long id, @RequestBody User data2) {
+	public String updateTask(@PathVariable long id, @RequestBody Users data2) {
 		return userSer.updatingUser(id, data2);
 	}
 
